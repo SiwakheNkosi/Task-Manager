@@ -17,12 +17,10 @@ export const TaskForm = ({ onSubmit }: TaskFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!title.trim()) return;
 
     setIsSubmitting(true);
     try {
-      await onSubmit(title.trim(), description.trim() || undefined);
+      await onSubmit(title.trim() || "Untitled Task", description.trim() || undefined);
       setTitle("");
       setDescription("");
     } finally {
@@ -48,7 +46,6 @@ export const TaskForm = ({ onSubmit }: TaskFormProps) => {
               placeholder="Enter your task title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              required
               maxLength={255}
             />
           </div>
@@ -68,7 +65,7 @@ export const TaskForm = ({ onSubmit }: TaskFormProps) => {
           <Button 
             type="submit" 
             className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
-            disabled={isSubmitting || !title.trim()}
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Adding..." : "Add Task"}
           </Button>
